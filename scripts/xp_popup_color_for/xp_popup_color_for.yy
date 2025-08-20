@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"xp_popup_color_for",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"xp_popup_color_for",
+  "parent":{
+    "name":"script_popups",
+    "path":"folders/Scripts/script_popups.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

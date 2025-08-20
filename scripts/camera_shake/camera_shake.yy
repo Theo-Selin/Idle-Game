@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"camera_shake",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"camera_shake",
+  "parent":{
+    "name":"script_interaction",
+    "path":"folders/Scripts/script_interaction.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"get_room_for_portal",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"get_room_for_portal",
+  "parent":{
+    "name":"script_portal",
+    "path":"folders/Scripts/script_portal.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

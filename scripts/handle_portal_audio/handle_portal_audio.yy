@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"handle_portal_audio",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"handle_portal_audio",
+  "parent":{
+    "name":"script_sounds",
+    "path":"folders/Scripts/script_sounds.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

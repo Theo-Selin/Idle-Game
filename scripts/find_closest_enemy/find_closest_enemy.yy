@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"find_closest_enemy",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"find_closest_enemy",
+  "parent":{
+    "name":"auto",
+    "path":"folders/Scripts/script_UI/auto.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

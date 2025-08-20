@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"context_menu",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"context_menu",
+  "parent":{
+    "name":"inventory",
+    "path":"folders/Scripts/script_UI/inventory.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

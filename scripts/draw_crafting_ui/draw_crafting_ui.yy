@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_crafting_ui",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_crafting_ui",
+  "parent":{
+    "name":"crafting",
+    "path":"folders/Scripts/script_UI/crafting.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

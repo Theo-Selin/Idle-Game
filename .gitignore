@@ -1,0 +1,34 @@
+# — GameMaker user/machine & temp —
+*.yy.lock
+*.local
+*.log
+*.tmp
+*.swp
+*.user
+*.suo
+*.iml
+
+# GM autosave/backup/temp variants
+*.yyp~
+*.yy~
+*.old.yy
+*.old.png
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Build / export outputs (add your custom build folders if any)
+build/
+output/
+cache/
+sdk/
+*.zip
+*.tar.gz
+*.7z
+*.dmg
+*.exe
+*.apk
+*.ipa
+*.appx
+*.x86_64

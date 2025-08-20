@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"update_enemy_grid_blocking",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"update_enemy_grid_blocking",
+  "parent":{
+    "name":"script_tiles",
+    "path":"folders/Scripts/script_tiles.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

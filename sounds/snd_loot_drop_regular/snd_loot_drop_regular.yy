@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_loot_drop_regular",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":0.67058957,
+  "name":"snd_loot_drop_regular",
+  "parent":{
+    "name":"loot",
+    "path":"folders/Sounds/sound_effects/loot.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_loot_drop_regular.ogg",
+  "type":0,
+  "volume":0.05,
+}

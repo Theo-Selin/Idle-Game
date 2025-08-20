@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ui_check_mouse_block",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ui_check_mouse_block",
+  "parent":{
+    "name":"script_UI",
+    "path":"folders/Scripts/script_UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

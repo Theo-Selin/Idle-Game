@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"damage_popup_show",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"damage_popup_show",
+  "parent":{
+    "name":"script_popups",
+    "path":"folders/Scripts/script_popups.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

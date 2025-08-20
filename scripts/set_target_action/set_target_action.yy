@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"set_target_action",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"set_target_action",
+  "parent":{
+    "name":"script_interaction",
+    "path":"folders/Scripts/script_interaction.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

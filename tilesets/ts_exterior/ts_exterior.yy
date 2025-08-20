@@ -1,0 +1,42 @@
+{
+  "$GMTileSet":"v1",
+  "%Name":"ts_exterior",
+  "autoTileSets":[
+    {"$GMAutoTileSet":"","%Name":"grass","closed_edge":true,"name":"grass","resourceType":"GMAutoTileSet","resourceVersion":"2.0","tiles":[226,229,228,211,214,225,231,210,213,232,227,212,241,240,242,243,],},
+    {"$GMAutoTileSet":"","%Name":"dirt","closed_edge":false,"name":"dirt","resourceType":"GMAutoTileSet","resourceVersion":"2.0","tiles":[271,274,273,256,259,270,276,255,258,277,272,257,286,285,287,288,],},
+    {"$GMAutoTileSet":"","%Name":"autotile_1","closed_edge":false,"name":"autotile_1","resourceType":"GMAutoTileSet","resourceVersion":"2.0","tiles":[136,154,153,121,139,135,123,120,138,124,137,122,151,150,152,105,],},
+  ],
+  "macroPageTiles":{
+    "SerialiseHeight":0,
+    "SerialiseWidth":0,
+    "TileSerialiseData":[],
+  },
+  "name":"ts_exterior",
+  "out_columns":27,
+  "out_tilehborder":2,
+  "out_tilevborder":2,
+  "parent":{
+    "name":"Tile Sets",
+    "path":"folders/Tile Sets.yy",
+  },
+  "resourceType":"GMTileSet",
+  "resourceVersion":"2.0",
+  "spriteId":{
+    "name":"spr_exterior",
+    "path":"sprites/spr_exterior/spr_exterior.yy",
+  },
+  "spriteNoExport":false,
+  "textureGroupId":{
+    "name":"Default",
+    "path":"texturegroups/Default",
+  },
+  "tileAnimationFrames":[],
+  "tileAnimationSpeed":15.0,
+  "tileHeight":32,
+  "tilehsep":0,
+  "tilevsep":0,
+  "tileWidth":32,
+  "tilexoff":0,
+  "tileyoff":0,
+  "tile_count":750,
+}

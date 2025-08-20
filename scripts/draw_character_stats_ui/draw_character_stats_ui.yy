@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_character_stats_ui",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_character_stats_ui",
+  "parent":{
+    "name":"character",
+    "path":"folders/Scripts/script_UI/character.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

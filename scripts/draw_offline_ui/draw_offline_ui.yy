@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_offline_ui",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_offline_ui",
+  "parent":{
+    "name":"offline",
+    "path":"folders/Scripts/script_UI/offline.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

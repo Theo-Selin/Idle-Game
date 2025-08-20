@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"equip_helpers",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"equip_helpers",
+  "parent":{
+    "name":"inventory",
+    "path":"folders/Scripts/script_UI/inventory.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

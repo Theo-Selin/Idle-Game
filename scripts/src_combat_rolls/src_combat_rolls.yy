@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"src_combat_rolls",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"src_combat_rolls",
+  "parent":{
+    "name":"script_combat",
+    "path":"folders/Scripts/script_combat.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

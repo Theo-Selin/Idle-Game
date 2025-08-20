@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"draw_scaled_application_surface",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"draw_scaled_application_surface",
+  "parent":{
+    "name":"script_UI",
+    "path":"folders/Scripts/script_UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

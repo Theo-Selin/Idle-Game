@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"portal_activate",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"portal_activate",
+  "parent":{
+    "name":"script_portal",
+    "path":"folders/Scripts/script_portal.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

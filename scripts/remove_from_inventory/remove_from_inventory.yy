@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"remove_from_inventory",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"remove_from_inventory",
+  "parent":{
+    "name":"inventory",
+    "path":"folders/Scripts/script_UI/inventory.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

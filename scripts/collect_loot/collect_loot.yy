@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"collect_loot",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"collect_loot",
+  "parent":{
+    "name":"Scripts",
+    "path":"folders/Scripts.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

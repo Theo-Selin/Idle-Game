@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"auto_combat_update",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"auto_combat_update",
+  "parent":{
+    "name":"auto",
+    "path":"folders/Scripts/script_UI/auto.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

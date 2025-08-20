@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"enemy_die",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"enemy_die",
+  "parent":{
+    "name":"script_interaction",
+    "path":"folders/Scripts/script_interaction.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

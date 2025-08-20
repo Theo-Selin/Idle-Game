@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"open_sell_dialog",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"open_sell_dialog",
+  "parent":{
+    "name":"inventory",
+    "path":"folders/Scripts/script_UI/inventory.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

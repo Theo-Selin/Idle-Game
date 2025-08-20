@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"fade_in_sound",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"fade_in_sound",
+  "parent":{
+    "name":"script_sounds",
+    "path":"folders/Scripts/script_sounds.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

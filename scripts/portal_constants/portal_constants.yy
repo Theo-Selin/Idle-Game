@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"portal_constants",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"portal_constants",
+  "parent":{
+    "name":"script_portal",
+    "path":"folders/Scripts/script_portal.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

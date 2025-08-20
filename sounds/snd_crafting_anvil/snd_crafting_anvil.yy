@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_crafting_anvil",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":3.987007,
+  "name":"snd_crafting_anvil",
+  "parent":{
+    "name":"crafting",
+    "path":"folders/Sounds/sound_effects/crafting.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_crafting_anvil.ogg",
+  "type":0,
+  "volume":0.15,
+}

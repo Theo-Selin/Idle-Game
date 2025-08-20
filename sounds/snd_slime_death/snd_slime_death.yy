@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_slime_death",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":0.99723357,
+  "name":"snd_slime_death",
+  "parent":{
+    "name":"enemy",
+    "path":"folders/Sounds/sound_effects/combat/enemy.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_slime_death.ogg",
+  "type":0,
+  "volume":0.05,
+}

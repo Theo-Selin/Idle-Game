@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ui_draw_value_meter",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ui_draw_value_meter",
+  "parent":{
+    "name":"progress",
+    "path":"folders/Scripts/script_UI/progress.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

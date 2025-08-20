@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"change_tab",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"change_tab",
+  "parent":{
+    "name":"script_UI",
+    "path":"folders/Scripts/script_UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

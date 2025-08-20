@@ -1,0 +1,25 @@
+{
+  "$GMSound":"",
+  "%Name":"snd_tree_chop",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "bitRate":128,
+  "compression":0,
+  "conversionMode":0,
+  "duration":0.8634921,
+  "name":"snd_tree_chop",
+  "parent":{
+    "name":"gathering",
+    "path":"folders/Sounds/sound_effects/gathering.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_tree_chop.ogg",
+  "type":0,
+  "volume":0.2,
+}

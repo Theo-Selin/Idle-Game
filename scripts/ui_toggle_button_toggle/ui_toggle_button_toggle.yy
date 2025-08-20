@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ui_toggle_button_toggle",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ui_toggle_button_toggle",
+  "parent":{
+    "name":"script_UI",
+    "path":"folders/Scripts/script_UI.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

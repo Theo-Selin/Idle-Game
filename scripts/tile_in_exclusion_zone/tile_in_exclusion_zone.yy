@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"tile_in_exclusion_zone",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"tile_in_exclusion_zone",
+  "parent":{
+    "name":"script_tiles",
+    "path":"folders/Scripts/script_tiles.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

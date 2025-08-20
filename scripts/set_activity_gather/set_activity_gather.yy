@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"set_activity_gather",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"set_activity_gather",
+  "parent":{
+    "name":"script_interaction",
+    "path":"folders/Scripts/script_interaction.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
