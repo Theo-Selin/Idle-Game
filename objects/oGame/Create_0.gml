@@ -209,9 +209,9 @@ if (!variable_global_exists("___init_done")) {
         stats: { xp: 0, level: 1 },
         portal_id: global.current_portal,
 		inventory_order: {},
-        // Activity snapshot (mirrors what player was doing)
+
         activity: {
-            type: "idle",                 // "idle" | "gather" | "combat"
+            type: "idle",
             portal_id: global.current_portal,
             // gather:
             resource_id: "",
@@ -219,18 +219,9 @@ if (!variable_global_exists("___init_done")) {
             // combat:
             enemy_kind: "",
             kills_per_sec: 0,
-            loot_per_kill: {}            // struct: item_id -> expected amount per kill
+            loot_per_kill: {}
         }
     };
-
-    //// Seed known items MAY NOT BE NEEDED
-    //variable_struct_set(global.save.inventory, "oak_log",     0);
-	//variable_struct_set(global.save.inventory, "mushroom",     0);
-	//variable_struct_set(global.save.inventory, "hp_potion",     0);
-	//variable_struct_set(global.save.inventory, "cloth",     0);
-    //variable_struct_set(global.save.inventory, "coin_copper", 0);
-    //variable_struct_set(global.save.inventory, "stick",       0);
-	//variable_struct_set(global.save.inventory, "cloth_armor", 0);
 
     // Autosave flags/timers
     global.__save_dirty          = true;  // force first save

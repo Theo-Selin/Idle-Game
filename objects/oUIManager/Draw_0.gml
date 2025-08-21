@@ -111,10 +111,10 @@ if (array_length(toasts) > 0) {
 draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 
-// === DEBUG CROSSHAIRS (optional) ===
-draw_set_color(c_lime);
-draw_rectangle(mx - 2, my - 2, mx + 2, my + 2, false);
-draw_text(mx + 6, my, "MOUSE");
+//// === DEBUG CROSSHAIRS (optional) ===
+//draw_set_color(c_lime);
+//draw_rectangle(mx - 2, my - 2, mx + 2, my + 2, false);
+//draw_text(mx + 6, my, "MOUSE");
 
 // === UI VISIBILITY ===
 if (!ui_visible) exit;
