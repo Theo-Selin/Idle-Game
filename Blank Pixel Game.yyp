@@ -306,6 +306,7 @@
     {"id":{"name":"spr_inventory_slot","path":"sprites/spr_inventory_slot/spr_inventory_slot.yy",},},
     {"id":{"name":"spr_inventory","path":"sprites/spr_inventory/spr_inventory.yy",},},
     {"id":{"name":"spr_level_up","path":"sprites/spr_level_up/spr_level_up.yy",},},
+    {"id":{"name":"spr_lock_small","path":"sprites/spr_lock_small/spr_lock_small.yy",},},
     {"id":{"name":"spr_mote_flare","path":"sprites/spr_mote_flare/spr_mote_flare.yy",},},
     {"id":{"name":"spr_mushroom_animation","path":"sprites/spr_mushroom_animation/spr_mushroom_animation.yy",},},
     {"id":{"name":"spr_mushroom_canopy","path":"sprites/spr_mushroom_canopy/spr_mushroom_canopy.yy",},},

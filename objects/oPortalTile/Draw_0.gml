@@ -33,6 +33,60 @@ var base_soft_px;        if (variable_instance_exists(id,"glow_base_soft_px"))  
 var base_soft_strength;  if (variable_instance_exists(id,"glow_base_soft_strength"))  base_soft_strength  = clamp(variable_instance_get(id,"glow_base_soft_strength"), 0, 1); else base_soft_strength = 0.2;
 var base_soft_curve;     if (variable_instance_exists(id,"glow_base_soft_curve"))     base_soft_curve     = max(1, variable_instance_get(id,"glow_base_soft_curve")); else base_soft_curve = 2.0;
 
+// -------------------------------------------------------------------
+// LOCKED STATE UI (no glow if requirement not met)
+// Expect the Step event to maintain `can_enter`.
+// Optional per-instance UI overrides
+var _lock_offset_y;   if (variable_instance_exists(id,"lock_offset_y"))   _lock_offset_y   = variable_instance_get(id,"lock_offset_y");   else _lock_offset_y   = -24;
+var _lock_offset_x;   if (variable_instance_exists(id,"lock_offset_x"))   _lock_offset_x   = variable_instance_get(id,"lock_offset_x");   else _lock_offset_x   = 0;
+var _lock_text_color; if (variable_instance_exists(id,"lock_text_color")) _lock_text_color = variable_instance_get(id,"lock_text_color"); else _lock_text_color = c_red;
+var _lock_sprite;     if (variable_instance_exists(id,"lock_sprite"))     _lock_sprite     = variable_instance_get(id,"lock_sprite");     else _lock_sprite     = noone;
+var _req_level;       if (variable_instance_exists(id,"req_level"))       _req_level       = variable_instance_get(id,"req_level");       else _req_level       = 1;
+
+// If locked: draw icon (animated) and text BELOW the icon, then exit
+if (variable_instance_exists(id,"can_enter") && !can_enter) {
+    var _label  = "lvl " + string(_req_level);
+    var _base_x = x + _lock_offset_x;
+    var _base_y = y + _lock_offset_y;
+
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+
+    // --- Lightweight animation (bob + shimmer)
+    var _t          = current_time;
+    var _bob_y      = 2 * sin(_t / 700);   // slow vertical bob (±2px)
+    var _alpha_wave = 0.9 + 0.1 * sin(_t / 400); // subtle alpha shimmer
+    var _scale_base = 0.8;                 // your current scale
+    var _scale      = _scale_base * (1 + 0.04 * sin(_t / 900)); // tiny scale pulse
+
+    var _spacing = 18;
+    var _text_y  = _base_y + _bob_y; // default if no sprite
+
+    if (!is_undefined(_lock_sprite) && _lock_sprite != noone) {
+        var _w  = sprite_get_width(_lock_sprite);
+        var _h  = sprite_get_height(_lock_sprite);
+        var _oy = sprite_get_yoffset(_lock_sprite);
+
+        // Shadow then main (centered on _base_x/_base_y), both follow bob & shimmer
+        draw_sprite_ext(_lock_sprite, 0, _base_x + 1, _base_y + 1 + _bob_y, _scale, _scale, 0, c_black, _alpha_wave);
+        draw_sprite_ext(_lock_sprite, 0, _base_x,     _base_y + _bob_y,     _scale, _scale, 0, c_white, _alpha_wave);
+
+        // Distance from draw point to bottom edge, considering origin and *animated* scale
+        var _bottom_offset = (_h - _oy) * _scale;
+        _text_y = _base_y + _bob_y + _bottom_offset + _spacing;
+    }
+
+    // Text shadow for readability (follows bob as well)
+    draw_set_color(c_black);
+    draw_text(_base_x, _text_y + 1, _label);
+
+    draw_set_color(_lock_text_color);
+    draw_text(_base_x, _text_y, _label);
+
+    exit;
+}
+// -------------------------------------------------------------------
+
 var cx = x;
 var cy = y + 16;
 
