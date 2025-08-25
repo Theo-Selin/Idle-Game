@@ -35,7 +35,7 @@ offline_loot_avg = { coin_copper: 1, cloth: 0.1 }; // add cloth expectation
 
 // 🎓 EXP settings owned by this enemy type
 xp_skill = "combat";
-xp_reward = 12; // tune per enemy type
+xp_reward = 4; // tune per enemy type
 
 // === SLIME ANIMATIONS ===
 base_sprites = {
