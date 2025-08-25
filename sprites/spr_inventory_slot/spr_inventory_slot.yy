@@ -19,7 +19,7 @@
   "height":48,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"75167f98-a9c9-4013-aa4a-73204efaa4bf","blendMode":0,"displayName":"default","isLocked":false,"name":"75167f98-a9c9-4013-aa4a-73204efaa4bf","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"75167f98-a9c9-4013-aa4a-73204efaa4bf","blendMode":0,"displayName":"default","isLocked":false,"name":"75167f98-a9c9-4013-aa4a-73204efaa4bf","opacity":50.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_inventory_slot",
   "nineSlice":null,

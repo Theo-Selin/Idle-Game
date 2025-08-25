@@ -1,12 +1,12 @@
 {
   "$GMScript":"v1",
-  "%Name":"ui_toast_add",
+  "%Name":"draw_upgrade_ui",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"ui_toast_add",
+  "name":"draw_upgrade_ui",
   "parent":{
-    "name":"script_progression",
-    "path":"folders/Scripts/script_progression.yy",
+    "name":"upgrade",
+    "path":"folders/Scripts/script_UI/upgrade.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

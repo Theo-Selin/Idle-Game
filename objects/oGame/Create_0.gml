@@ -148,6 +148,33 @@ if (!variable_global_exists("___init_done")) {
 	        },
 	    }
 	};
+	
+	// -------------------- UPGRADES: registry (static) --------------------
+	if (!variable_global_exists("upgrade_defs") || !is_struct(global.upgrade_defs)) {
+	    global.upgrade_defs = {};
+	}
+
+	// Damage upgrade: +10% per level (multiplicative on final damage)
+	variable_struct_set(global.upgrade_defs, "damage", {
+	    name: "Damage",
+	    stat: "damage",
+	    mode: "mul",     // handled in recalc_stats
+	    per_level: 0.10, // +10% per level
+	    base_cost: 1,
+	    cost_mul : 1.5,
+	    max_level: 99,
+	    icon: noone
+	});
+		variable_struct_set(global.upgrade_defs, "hp", {
+	    name: "HP",
+	    stat: "hp",
+	    per_level: 10, // +10% per level
+	    base_cost: 1,
+	    cost_mul : 1.5,
+	    max_level: 99,
+	    icon: noone
+	});
+
 
 	// === STATS LABELS (for any UI that reads labels) ===
 	// Keep legacy keys AND add the new equip_stats keys.
@@ -209,6 +236,7 @@ if (!variable_global_exists("___init_done")) {
         stats: { xp: 0, level: 1 },
         portal_id: global.current_portal,
 		inventory_order: {},
+		upgrades: {},
 
         activity: {
             type: "idle",
@@ -260,6 +288,25 @@ if (!variable_global_exists("___init_done")) {
                     loot_per_kill: {}
                 });
             }
+			
+			// Ensure upgrades struct exists on the loaded save
+			if (!variable_struct_exists(global.save, "upgrades"))
+			    variable_struct_set(global.save, "upgrades", {});
+
+			var up = variable_struct_get(global.save, "upgrades");
+
+			// Backfill any missing upgrade keys from the registry (level -> 0)
+			if (variable_global_exists("upgrade_defs") && is_struct(global.upgrade_defs)) {
+			    var ukeys = variable_struct_get_names(global.upgrade_defs);
+			    for (var ui = 0; ui < array_length(ukeys); ui++) {
+			        var k = ukeys[ui];
+			        if (is_undefined(variable_struct_get(up, k))) {
+			            variable_struct_set(up, k, { level: 0 });
+			            global.__save_dirty = true; // we added fields; autosave soon
+			        }
+			    }
+			}
+
 
             // Ensure known item keys exist
             var inv = variable_struct_get(global.save, "inventory");
@@ -291,6 +338,11 @@ if (!variable_global_exists("___init_done")) {
 
     // Keep runtime alias pointing at persisted equipment
     global.equipment_slots = global.save.equipment;
+	// Keep runtime alias pointing at persisted upgrades
+	global.upgrades = global.save.upgrades;
+	// Schedule a few stat rebuilds to catch player spawn timing
+	global.__stats_sync_frames = 3; // small number is enough
+
 
     // -------------------- PROGRESS (embed into save) --------------------
     if (variable_struct_exists(global.save, "progress") && is_struct(global.save.progress)) {

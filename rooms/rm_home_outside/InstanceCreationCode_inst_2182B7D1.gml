@@ -4,7 +4,7 @@ glow_beam_height = 256;
 glow_rotation = 90;
 
 // Example Creation Code on a portal that needs Combat level 5:
-req_skill = "combat";   // or "chopping" (must match global.progress.skills keys)
+req_skill = "combat";   // or "woodcutting" (must match global.progress.skills keys)
 req_level = 10;
 
 // Optional visuals:

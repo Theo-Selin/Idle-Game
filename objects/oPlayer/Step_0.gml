@@ -263,7 +263,7 @@ if (action_type == "gather" && state == "gathering") {
             }
 
             if (gather_timer >= gather_cooldown) {
-                gather_phase = "chopping";
+                gather_phase = "woodcutting";
                 gather_timer = 0;
 
                 anim_state = gather_anim;
@@ -272,7 +272,7 @@ if (action_type == "gather" && state == "gathering") {
             }
             break;
 
-        case "chopping":
+        case "woodcutting":
             anim_state = gather_anim;
 
             if (gather_timer == 0 && !is_undefined(target.on_gather_hit)) target.on_gather_hit();

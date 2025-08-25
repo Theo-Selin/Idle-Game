@@ -6,3 +6,5 @@ glow_rotation = 0;
 glow_base_soft_px = 6;
 glow_base_soft_strength = 0.6;
 glow_base_soft_curve = 2.0;
+
+trigger_radius = 16;

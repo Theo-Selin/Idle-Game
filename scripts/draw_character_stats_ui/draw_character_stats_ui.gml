@@ -62,7 +62,7 @@ function draw_character_stats_ui(_x, _y, _w, _h)
         global.progress = {
             skills: {
                 combat  : { level: 1, xp: 0 },
-                chopping: { level: 1, xp: 0 }
+                woodcutting: { level: 1, xp: 0 }
             }
         };
     }
@@ -160,8 +160,8 @@ function draw_character_stats_ui(_x, _y, _w, _h)
 	    // Start drawing at the padded top
 	    var ls_y = ls_y1;
 
-	    // --- CHOPPING ---
-	    var s2 = progress_get_skill("chopping");
+	    // --- WOODCUTTING ---
+	    var s2 = progress_get_skill("woodcutting");
 	    var s2_lvl  = is_struct(s2) ? s2.level : 1;
 	    var s2_xp   = is_struct(s2) ? s2.xp : 0;
 	    var s2_need = max(1, progress_xp_to_next(s2_lvl));
@@ -170,7 +170,7 @@ function draw_character_stats_ui(_x, _y, _w, _h)
 	    var label_y = ls_y - (theme.line - theme.bar_h) * 0.5 - (theme.bar_h + 2);
 
 	    draw_set_halign(fa_left);  draw_set_color(theme.col_dim);
-	    draw_text(ls_x1, label_y, "CHOPPING");
+	    draw_text(ls_x1, label_y, "WOODCUTTING");
 	    draw_set_halign(fa_right); draw_set_color(theme.col_text);
 	    draw_text(ls_x2, label_y, "Lv." + string(s2_lvl));
 	    draw_set_halign(fa_left);

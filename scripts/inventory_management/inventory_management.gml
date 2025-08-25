@@ -73,9 +73,9 @@ function sort_inventory_category(_category) {
 
     var pairs = [];
     for (var i = 0; i < array_length(order); i++) {
-        var _id = order[i];
+        var _id  = order[i];
         var meta = variable_struct_get(global.item_data, _id);
-        var nm = is_undefined(meta.name) ? _id : string(meta.name);
+        var nm   = is_undefined(meta.name) ? _id : string(meta.name);
         array_push(pairs, { id: _id, name: string_lower(nm) });
     }
 
@@ -93,10 +93,17 @@ function sort_inventory_category(_category) {
     var sorted = [];
     for (var t = 0; t < array_length(pairs); t++) array_push(sorted, pairs[t].id);
     variable_struct_set(global.save.inventory_order, _category, sorted);
-    global.__save_dirty = true;
+    global.__save_dirty    = true;
     global.__save_cooldown = global.__save_interval_steps;
+
+    // 🔊 SFX: inventory sort
+    if (audio_exists(snd_inventory_sort)) {
+        play_impact_sound(snd_inventory_sort, 0.9, 1.0, 1.1);
+    }
+
     return true;
 }
+
 
 // ======================
 // Currency (Bronze/Silver/Gold) 1000:1 carry

@@ -2,12 +2,39 @@
 /// DEV: Reset all progress (Ctrl+Shift+R)
 if (keyboard_check_pressed(ord("R")) && keyboard_check(vk_control) && keyboard_check(vk_shift)) {
     progress_reset_all();
+
     if (instance_exists(oUIManager)) {
-        ui_toast_add("Progress reset", 90);
+        with (oUIManager) {
+            if (!variable_instance_exists(id, "toasts") || !is_array(toasts)) toasts = [];
+
+            var t = { text: "Progress reset", age: 0, ttl: 120 };
+            // Optional icon:
+            // t.spr = "spr_ui_reset"; // or a sprite index
+
+            array_push(toasts, t);
+
+            var MAX_TOASTS = 8;
+            while (array_length(toasts) > MAX_TOASTS) array_delete(toasts, 0, 1);
+        }
     }
 }
 
+
 // ----------------------------------------------- //
+
+// Deferred stats rebuild after load (runs a few frames)
+if (variable_global_exists("__stats_sync_frames")) {
+    if (global.__stats_sync_frames > 0) {
+        var p = noone;
+        if (variable_global_exists("player") && instance_exists(global.player)) p = global.player;
+        else if (object_exists(oPlayer) && instance_number(oPlayer) > 0) p = instance_find(oPlayer, 0);
+
+        if (p != noone) {
+            recalc_stats(p);
+            global.__stats_sync_frames -= 1;
+        }
+    }
+}
 
 if (global.current_portal != global.previous_portal) {
     handle_portal_audio(global.current_portal);

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"toast_push_direct",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"toast_push_direct",
+  "parent":{
+    "name":"script_progression",
+    "path":"folders/Scripts/script_progression.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

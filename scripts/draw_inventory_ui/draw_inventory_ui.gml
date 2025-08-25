@@ -42,6 +42,12 @@ function draw_inventory_ui(x1, y1, w, h) {
     var item_categories = ["Equipment", "Gatherables", "Materials"];
     var current_category = global.current_inventory_category;
 
+    // --- SFX for category tabs (match side tabs behavior) ---
+    var sfx_hover_tabs = snd_ui_hover;
+    var sfx_tab_click  = snd_tab_click;
+    if (!variable_instance_exists(id, "__invcat_prev_hover")) __invcat_prev_hover = -1;
+    var hovered_cat_idx = -1;
+
     var total_tab_width = 0;
     var label_widths = [];
     for (var i = 0; i < array_length(item_categories); i++) {
@@ -58,26 +64,39 @@ function draw_inventory_ui(x1, y1, w, h) {
         var label = string_upper(item_categories[i]);
         var is_selected = (current_category == item_categories[i]);
 
-        draw_set_color(is_selected ? c_white : make_color_rgb(160, 160, 160));
-
         var label_h = string_height(label);
         var label_y = tab_area_y + (cat_tab_h - label_h) / 2;
-        draw_text(draw_x, label_y, label);
 
         var text_w = label_widths[i];
         var bx1 = draw_x, by1 = tab_area_y;
         var bx2 = draw_x + text_w + 6, by2 = by1 + cat_tab_h;
 
-        if (point_in_rectangle(mx, my, bx1, by1, bx2, by2)) {
-            global.ui_mouse_block = true;
-            if (mouse_check_button_pressed(mb_left)) {
+        var is_hovered = point_in_rectangle(mx, my, bx1, by1, bx2, by2);
+        if (is_hovered) { hovered_cat_idx = i; global.ui_mouse_block = true; }
+
+        // Color: hover → white, active → white, else dim gray
+        draw_set_color((is_selected || is_hovered) ? c_white : make_color_rgb(160,160,160));
+        draw_text(draw_x, label_y, label);
+
+        // Click to activate (play click sound only if switching)
+        if (is_hovered && mouse_check_button_pressed(mb_left)) {
+            if (item_categories[i] != current_category) {
                 global.current_inventory_category = item_categories[i];
                 current_category = item_categories[i];
+                if (audio_exists(sfx_tab_click)) play_impact_sound(sfx_tab_click, 1, 1.5, 2);
             }
         }
 
         draw_x += text_w + cat_tab_spacing;
     }
+
+    // Play hover SFX once when entering a new (non-active) category tab
+    if (hovered_cat_idx != -1 && hovered_cat_idx != __invcat_prev_hover) {
+        if (item_categories[hovered_cat_idx] != current_category) {
+            if (audio_exists(sfx_hover_tabs)) play_impact_sound(sfx_hover_tabs, 0.2, 1.5, 1.5);
+        }
+    }
+    __invcat_prev_hover = hovered_cat_idx;
 
     // === 2️⃣ FILTER + ORDER (persisted) ===
     var filtered_inventory = []; // [{id, amount}]
@@ -188,8 +207,9 @@ function draw_inventory_ui(x1, y1, w, h) {
             global.inv_drag.category = global.inv_press.category;
             global.inv_drag.from_index = global.inv_press.index;
             global.inv_drag.item_id = global.inv_press.item_id;
-            global.inv_drag.offset_x = global.inv_press.start_x - (slot_x + item_slot_size/2);
-            global.inv_drag.offset_y = global.inv_press.start_y - (slot_y + item_slot_size/2);
+			global.inv_drag.offset_x = global.inv_press.start_x - (slot_x + item_slot_size/2);
+			global.inv_drag.offset_y = global.inv_press.start_y - (slot_y + item_slot_size/2);
+
 
             inv_drag_active = true;
             global.inv_press.active = false;
@@ -258,7 +278,7 @@ function draw_inventory_ui(x1, y1, w, h) {
                 global.tooltip_item_id = item_id;
                 global.tooltip_x = mx + 12;
                 global.tooltip_y = my + 12;
-				global.tooltip_sell_bronze = inv_get_sell_price_bronze(item_id);
+                global.tooltip_sell_bronze = inv_get_sell_price_bronze(item_id);
             }
         }
     }
@@ -320,159 +340,59 @@ function draw_inventory_ui(x1, y1, w, h) {
     var sy_base = bottom_area_y + slot_margin;
     var slot_names = ["helmet", "armor", "weapon", "amulet", "ring_1", "ring_2", "health"];
 
-	for (var i = 0; i < array_length(slot_names); i++)
-	{
-	    var slot_type = slot_names[i];
+    for (var i = 0; i < array_length(slot_names); i++) {
+        var slot_type = slot_names[i];
 
-	    // --- 3-rows-per-column layout ---
-	    var row = i mod 3;                // 0..2 (vertical)
-	    var col = i div 3;                // 0,1,2... (horizontal)
-	    var sx  = sx_base + col * (item_slot_size + slot_margin);
-	    var sy  = sy_base + row * (item_slot_size + slot_margin);
+        // --- 3-rows-per-column layout ---
+        var row = i mod 3;                // 0..2 (vertical)
+        var col = i div 3;                // 0,1,2... (horizontal)
+        var sx  = sx_base + col * (item_slot_size + slot_margin);
+        var sy  = sy_base + row * (item_slot_size + slot_margin);
 
-	    // slot background
-	    draw_sprite(spr_inventory_slot, 0, sx, sy);
+        // slot background
+        draw_sprite(spr_inventory_slot, 0, sx, sy);
 
-	    // equipped item
-	    var equipped_item_id = variable_struct_get(global.save.equipment, slot_type);
-	    if (!is_undefined(equipped_item_id)) {
-	        var eq_item = variable_struct_get(global.item_data, equipped_item_id);
-	        if (!is_undefined(eq_item.icon)) {
-	            // center icon inside slot (assuming icon origin is 0,0)
-	            draw_sprite(eq_item.icon, 0, sx + item_slot_size div 2, sy + item_slot_size div 2);
-	        }
+        // equipped item
+        var equipped_item_id = variable_struct_get(global.save.equipment, slot_type);
+        if (!is_undefined(equipped_item_id)) {
+            var eq_item = variable_struct_get(global.item_data, equipped_item_id);
+            if (!is_undefined(eq_item.icon)) {
+                // center icon inside slot (assuming icon origin is 0,0)
+                draw_sprite(eq_item.icon, 0, sx + item_slot_size div 2, sy + item_slot_size div 2);
+            }
 
-	        var hovered_slot = point_in_rectangle(mx, my, sx, sy, sx + item_slot_size, sy + item_slot_size);
-	        if (hovered_slot) {
-	            global.ui_mouse_block = true;
-	            global.tooltip_item_id = equipped_item_id;
-	            global.tooltip_x = mx + 12;
-	            global.tooltip_y = my + 12;
-	            global.tooltip_sell_bronze = inv_get_sell_price_bronze(equipped_item_id);
+            var hovered_slot = point_in_rectangle(mx, my, sx, sy, sx + item_slot_size, sy + item_slot_size);
+            if (hovered_slot) {
+                global.ui_mouse_block = true;
+                global.tooltip_item_id = equipped_item_id;
+                global.tooltip_x = mx + 12;
+                global.tooltip_y = my + 12;
+                global.tooltip_sell_bronze = inv_get_sell_price_bronze(equipped_item_id);
 
-	            if (mouse_check_button_pressed(mb_left)) {
-	                unequip_slot(slot_type);
-	            }
-	        }
-	    } else {
-	        // empty slot hover
-	        if (point_in_rectangle(mx, my, sx, sy, sx + item_slot_size, sy + item_slot_size)) {
-	            global.ui_mouse_block = true;
-	            global.tooltip_text = string_upper(slot_type);
-	            global.tooltip_x = mx + 12;
-	            global.tooltip_y = my + 12;
-	            // No item -> no sell price (avoid calling with undefined)
-	            global.tooltip_sell_bronze = 0;
-	        }
-	    }
-	}
-
-
-	// === Currency display (right stats panel) — horizontal, scaled, center-aligned ===
-	{
-	    var stats_x = group_x + equipped_w + section_spacing;
-	    var stats_y = bottom_area_y;
-	    var pad = 12;
-
-	    var money  = currency_get_bsg();
-	    var xcur   = stats_x + pad;
-	    var ycur   = stats_y + pad;
-
-	    // Layout + scaling
-	    var ICON_H    = 16;     // target icon height
-	    var TEXT_GAP  = 6;      // gap between icon and number
-	    var BLOCK_GAP = 18;     // gap between each coin block
-	    var th        = string_height("0");
-
-	    // Resolve sprites safely
-	    var spr_gold   = sprite_get_index("spr_coin_gold");
-	    var spr_silver = sprite_get_index("spr_coin_silver");
-	    var spr_bronze = sprite_get_index("spr_coin_copper"); // optional
-
-	    // Reused locals to avoid scope warnings
-	    var sw, sh, scale, sws, tx, ty, text;
-
-	    // --- GOLD ---
-	    if (spr_gold != -1) {
-	        sw    = sprite_get_width(spr_gold);
-	        sh    = max(1, sprite_get_height(spr_gold));
-	        scale = ICON_H / sh;
-	        sws   = sw * scale; // scaled width
-
-	        // origin is middle-center → position with left at xcur, vertical center at line center
-	        draw_sprite_ext(spr_gold, 0, xcur + sws * 0.5, ycur + ICON_H * 0.5, scale, scale, 0, c_white, 1);
-
-	        tx   = xcur + sws + TEXT_GAP;
-	        ty   = ycur + max(0, (ICON_H - th) div 2);
-	        text = string(money.gold);
-	        draw_set_color(c_white);
-	        draw_text(tx, ty, text);
-
-	        xcur = tx + string_width(text) + BLOCK_GAP;
-	    } else {
-	        text = "Gold: " + string(money.gold);
-	        ty   = ycur + max(0, (ICON_H - th) div 2);
-	        draw_set_color(c_white);
-	        draw_text(xcur, ty, text);
-	        xcur += string_width(text) + BLOCK_GAP;
-	    }
-
-	    // --- SILVER ---
-	    if (spr_silver != -1) {
-	        sw    = sprite_get_width(spr_silver);
-	        sh    = max(1, sprite_get_height(spr_silver));
-	        scale = ICON_H / sh;
-	        sws   = sw * scale;
-
-	        draw_sprite_ext(spr_silver, 0, xcur + sws * 0.5, ycur + ICON_H * 0.5, scale, scale, 0, c_white, 1);
-
-	        tx   = xcur + sws + TEXT_GAP;
-	        ty   = ycur + max(0, (ICON_H - th) div 2);
-	        text = string(money.silver);
-	        draw_set_color(c_white);
-	        draw_text(tx, ty, text);
-
-	        xcur = tx + string_width(text) + BLOCK_GAP;
-	    } else {
-	        text = "Silver: " + string(money.silver);
-	        ty   = ycur + max(0, (ICON_H - th) div 2);
-	        draw_set_color(c_white);
-	        draw_text(xcur, ty, text);
-	        xcur += string_width(text) + BLOCK_GAP;
-	    }
-
-	    // --- BRONZE ---
-	    if (spr_bronze != -1) {
-	        sw    = sprite_get_width(spr_bronze);
-	        sh    = max(1, sprite_get_height(spr_bronze));
-	        scale = ICON_H / sh;
-	        sws   = sw * scale;
-
-	        draw_sprite_ext(spr_bronze, 0, xcur + sws * 0.5, ycur + ICON_H * 0.5, scale, scale, 0, c_white, 1);
-
-	        tx   = xcur + sws + TEXT_GAP;
-	        ty   = ycur + max(0, (ICON_H - th) div 2);
-	        text = string(money.bronze);
-	        draw_set_color(c_white);
-	        draw_text(tx, ty, text);
-
-	        xcur = tx + string_width(text) + BLOCK_GAP;
-	    } else {
-	        text = "Bronze: " + string(money.bronze);
-	        ty   = ycur + max(0, (ICON_H - th) div 2);
-	        draw_set_color(c_white);
-	        draw_text(xcur, ty, text);
-	        xcur += string_width(text) + BLOCK_GAP;
-	    }
-	}
+                if (mouse_check_button_pressed(mb_left)) {
+                    unequip_slot(slot_type);
+                }
+            }
+        } else {
+            // empty slot hover
+            if (point_in_rectangle(mx, my, sx, sy, sx + item_slot_size, sy + item_slot_size)) {
+                global.ui_mouse_block = true;
+                global.tooltip_text = string_upper(slot_type);
+                global.tooltip_x = mx + 12;
+                global.tooltip_y = my + 12;
+                // No item -> no sell price (avoid calling with undefined)
+                global.tooltip_sell_bronze = 0;
+            }
+        }
+    }
 
     // === Context Menu (draw + input) ===
     if (draw_context_menu_and_handle_input()) {
         // consumed click
     }
-	
-	// === Sell dialog (draw + input)
-	if (draw_sell_dialog_and_handle_input()) {
-	    // modal consumes input
-	}
+
+    // === Sell dialog (draw + input)
+    if (draw_sell_dialog_and_handle_input()) {
+        // modal consumes input
+    }
 }

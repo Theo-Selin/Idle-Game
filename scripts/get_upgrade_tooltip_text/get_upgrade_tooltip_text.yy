@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"get_upgrade_tooltip_text",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"get_upgrade_tooltip_text",
+  "parent":{
+    "name":"tooltip",
+    "path":"folders/Scripts/script_UI/tooltip.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

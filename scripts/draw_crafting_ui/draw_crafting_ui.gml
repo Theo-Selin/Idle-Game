@@ -12,13 +12,11 @@ function draw_crafting_ui(x1, y1, w, h) {
     var mx = device_mouse_x_to_gui(0);
     var my = device_mouse_y_to_gui(0);
 
-    // (no tooltip reset here — centralized in oUIManager.Draw)
-
     // === CALCULATED AREAS ===
-    var tab_area_y   = y1;
-    var tab_area_h   = cat_tab_h + 4;
-    var grid_area_y  = tab_area_y + tab_area_h + section_spacing;
-    var grid_area_h  = floor(h * 0.45);
+    var tab_area_y    = y1;
+    var tab_area_h    = cat_tab_h + 4;
+    var grid_area_y   = tab_area_y + tab_area_h + section_spacing;
+    var grid_area_h   = floor(h * 0.45);
     var bottom_area_y = grid_area_y + grid_area_h + section_spacing;
     var bottom_area_h = h - (cat_tab_h + grid_area_h + section_spacing * 3);
 
@@ -26,15 +24,19 @@ function draw_crafting_ui(x1, y1, w, h) {
     var stats_w    = w - equipped_w - section_spacing;
     var usable_w   = w - grid_padding * 2;
 
-    // === CATEGORY TABS ===
+    // === CATEGORY TABS (hover + click SFX) ===
+    var sfx_hover_tabs = snd_ui_hover;
+    var sfx_tab_click  = snd_tab_click;
+    if (!variable_instance_exists(id, "__craft_prev_hover")) __craft_prev_hover = -1;
+    var hovered_tab_idx = -1;
+
     var total_tab_width = 0;
     var label_widths = [];
     for (var i = 0; i < array_length(item_categories); i++) {
         var label = string_upper(item_categories[i]);
         var label_w = string_width(label);
         label_widths[i] = label_w;
-        total_tab_width += label_w;
-        if (i < array_length(item_categories) - 1) total_tab_width += cat_tab_spacing;
+        total_tab_width += label_w + (i < array_length(item_categories) - 1 ? cat_tab_spacing : 0);
     }
 
     var tabs_start_x = x1 + (w - total_tab_width) / 2;
@@ -44,25 +46,35 @@ function draw_crafting_ui(x1, y1, w, h) {
         var label = string_upper(item_categories[i]);
         var is_selected = (current_category == item_categories[i]);
 
-        draw_set_color(is_selected ? c_white : make_color_rgb(160, 160, 160));
-
         var label_h = string_height(label);
         var label_y = tab_area_y + (cat_tab_h - label_h) / 2;
-        draw_text(draw_x, label_y, label);
 
         var text_w = label_widths[i];
         var bx1 = draw_x, by1 = tab_area_y;
         var bx2 = draw_x + text_w + 6, by2 = by1 + cat_tab_h;
 
-        if (point_in_rectangle(mx, my, bx1, by1, bx2, by2)) {
-            global.ui_mouse_block = true;
-            if (mouse_check_button_pressed(mb_left)) {
+        var is_hovered = point_in_rectangle(mx, my, bx1, by1, bx2, by2);
+        if (is_hovered) { hovered_tab_idx = i; global.ui_mouse_block = true; }
+
+        draw_set_color((is_selected || is_hovered) ? c_white : make_color_rgb(160,160,160));
+        draw_text(draw_x, label_y, label);
+
+        if (is_hovered && mouse_check_button_pressed(mb_left)) {
+            if (item_categories[i] != current_category) {
                 global.current_craft_category = item_categories[i];
+                current_category = item_categories[i];
+                if (audio_exists(sfx_tab_click)) play_impact_sound(sfx_tab_click, 1, 1.5, 2);
             }
         }
-
         draw_x += text_w + cat_tab_spacing;
     }
+
+    if (hovered_tab_idx != -1 && hovered_tab_idx != __craft_prev_hover) {
+        if (item_categories[hovered_tab_idx] != current_category) {
+            if (audio_exists(sfx_hover_tabs)) play_impact_sound(sfx_hover_tabs, 0.2, 1.5, 1.5);
+        }
+    }
+    __craft_prev_hover = hovered_tab_idx;
 
     // === 1️⃣ CRAFTING GRID ===
     var recipes_all = global.crafting_recipes;
@@ -101,12 +113,10 @@ function draw_crafting_ui(x1, y1, w, h) {
             if (point_in_rectangle(mx, my, slot_x, slot_y, slot_x + item_slot_size, slot_y + item_slot_size)) {
                 global.ui_mouse_block = true;
 
-                // Select this recipe on click
                 if (mouse_check_button_pressed(mb_left)) {
                     global.selected_recipe_index = i;
                 }
 
-                // 🔸 Only set tooltip data for the OUTPUT of the recipe
                 var out_id = string(recipe.output.id);
                 if (variable_struct_exists(global.item_data, out_id)) {
                     global.tooltip_item_id = out_id;
@@ -151,7 +161,6 @@ function draw_crafting_ui(x1, y1, w, h) {
                 var text = item.name + ": " + string(have) + " / " + string(needed);
                 draw_text(text_x, entry_y + 8, text);
 
-                // 🔸 Only set tooltip data for each INPUT ingredient icon
                 if (point_in_rectangle(mx, my, icon_x, entry_y, icon_x + icon_size, entry_y + icon_size)) {
                     global.ui_mouse_block = true;
                     global.tooltip_item_id = in_id;
@@ -185,11 +194,17 @@ function draw_crafting_ui(x1, y1, w, h) {
     draw_set_color(interp_color);
     draw_rectangle(bar_x, bar_y, bar_x + (bar_w * progress), bar_y + bar_h, false);
 
-    // Button
+    // ---------- CRAFT BUTTON (alpha hover + SFX like upgrade buttons) ----------
     var btn_w = 208;
     var btn_h = 29;
     var btn_x = action_x;
     var btn_y = bar_y + 40;
+
+    // SFX & state
+    var sfx_hover_btn = snd_ui_hover;
+    var sfx_click_btn = snd_upgrade_click; // reuse click SFX used by upgrade
+    if (!variable_instance_exists(id, "__craft_btn_alpha")) __craft_btn_alpha = 0.80;
+    if (!variable_instance_exists(id, "__craft_btn_hover_prev")) __craft_btn_hover_prev = false;
 
     var selected_recipe = undefined;
     var can_craft_now = false;
@@ -204,16 +219,40 @@ function draw_crafting_ui(x1, y1, w, h) {
     var hovering_btn = point_in_rectangle(mx, my, btn_x, btn_y, btn_x + btn_w, btn_y + btn_h);
     if (hovering_btn) global.ui_mouse_block = true;
 
-    draw_set_color(is_disabled ? c_dkgray : (hovering_btn ? c_yellow : c_white));
+    // Alpha model (match upgrade buttons)
+    var ALPHA_BASE     = 0.80;
+    var ALPHA_HOVER    = 1.00;
+    var ALPHA_DISABLED = 0.55;
+    var HOVER_SNAP     = 0.60; // snappy
+
+    var target_a = is_disabled ? ALPHA_DISABLED : (hovering_btn ? ALPHA_HOVER : ALPHA_BASE);
+    __craft_btn_alpha = __craft_btn_alpha * (1 - HOVER_SNAP) + target_a * HOVER_SNAP;
+
+    // Hover SFX once-on-enter (only when clickable)
+    if (hovering_btn && !is_disabled && !__craft_btn_hover_prev) {
+        if (audio_exists(sfx_hover_btn)) play_impact_sound(sfx_hover_btn, 0.2, 1.5, 1.6);
+    }
+    __craft_btn_hover_prev = hovering_btn && !is_disabled;
+
+    // Draw button with alpha (no color-tinting)
+    draw_set_alpha(__craft_btn_alpha);
+    draw_set_color(c_white);
     draw_sprite(spr_ui_button, 0, btn_x, btn_y);
+    draw_set_alpha(1);
+
+    // Label (white when enabled, dim when disabled)
     var btn_text = "CRAFT";
     var text_x = btn_x + (btn_w - string_width(btn_text)) / 2;
     var text_y = btn_y + (btn_h - string_height(btn_text)) / 2;
+    draw_set_color(is_disabled ? make_color_rgb(180,180,180) : c_white);
     draw_text(text_x, text_y, btn_text);
 
+    // Click -> start crafting (and click SFX)
     if (!is_undefined(selected_recipe) && hovering_btn && !is_disabled && mouse_check_button_pressed(mb_left)) {
+        if (audio_exists(sfx_click_btn)) audio_play_sound(sfx_click_btn, 0, false);
         start_crafting(selected_recipe);
     }
+    // ---------------------------------------------------------------------------
 
-    // ❌ No tooltip drawing here — centralized in oUIManager.Draw
+    // ❌ Tooltip drawing stays centralized in oUIManager.Draw
 }

@@ -15,7 +15,7 @@ gather_cycle_secs = 1; // seconds per successful swing
 yield_per_cycle = 0.5;
 
 // 🧠 EXP settings owned by the tree (per successful swing)
-xp_skill = "chopping";
+xp_skill = "woodcutting";
 xp_per_hit = 4; // tune per tree type (oak, birch etc.)
 
 // oTree layers

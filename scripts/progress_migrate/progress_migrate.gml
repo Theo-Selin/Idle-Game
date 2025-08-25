@@ -18,7 +18,7 @@ function progress_migrate(_data) {
     }
 
     // Ensure required skills exist and are valid
-    var ensure_list = ["combat", "chopping"]; // add "mining" later
+    var ensure_list = ["combat", "woodcutting"]; // add "mining" later
     var skills = out.skills;
 
     for (var i = 0; i < array_length(ensure_list); i++) {
