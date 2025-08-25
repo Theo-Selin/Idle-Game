@@ -1,3 +1,5 @@
+//oLoot Step
+
 // ⏱️ Log when pickup delay is reached
 if (timer == pickup_delay) {
     show_debug_message("⏱️ Pickup delay reached for " + loot_type);
@@ -98,39 +100,42 @@ if (fly_to_player) {
 	    // 📝 Create popup
 		var popup = instance_create_layer(oPlayer.x, oPlayer.y - 32, "Instances", oPopupFloat);
 		with (popup) {
+		    var amt = other.loot_amount;
+		    if (!is_real(amt)) amt = 1;
 
+		    // default visuals
+		    color = c_white;
+		    follow_id = oPlayer;
+
+		    // Build the text directly, no helper function needed
 		    switch (other.loot_type) {
 		        case "oak_log":
-		            text = "+1 Oak Log";
-		            sprite = spr_oak_log;
-		            color = c_white;
-		            break;
-					
-				case "mushroom":
-		            text = "+1 Mushroom";
-		            sprite = spr_mushroom;
-		            color = c_white;
-		            break;
-				
-				case "coin_copper":
-		            text = "+1 Copper Coin";
-		            sprite = spr_coin_copper;
-		            color = c_white;
-		            break;
-					
-				case "cloth":
-		            text = "+1 Cloth";
-		            sprite = spr_cloth;
-		            color = c_white;
-		            break;
-					
+		            text = "+" + string(amt) + (amt == 1 ? " Oak Log" : " Oak Logs");
+		            icon_sprite = spr_oak_log;
+		        break;
+
+		        case "mushroom":
+		            text = "+" + string(amt) + (amt == 1 ? " Mushroom" : " Mushrooms");
+		            icon_sprite = spr_mushroom;
+		        break;
+
+		        case "coin_copper":
+		            text = "+" + string(amt) + (amt == 1 ? " Copper Coin" : " Copper Coins");
+		            icon_sprite = spr_coin_copper;
+		        break;
+
+		        case "cloth":
+		            text = "+" + string(amt) + " Cloth"; // no plural form
+		            icon_sprite = spr_cloth;
+		        break;
+
 		        default:
-		            text = "+1 " + string(other.loot_type); // fallback
-		            sprite = noone;
-		            color = c_white;
-		            break;
+		            text = "+" + string(amt) + " " + string(other.loot_type);
+		            icon_sprite = -1;
+		        break;
 		    }
 		}
+
 
 	    // 🗑️ Remove the loot instance
 	    instance_destroy();

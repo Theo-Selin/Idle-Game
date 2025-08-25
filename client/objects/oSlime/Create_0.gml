@@ -27,6 +27,9 @@ combat_distance = 36; // Adjust per enemy (e.g. Slime = 36, Goblin = 48, Boss = 
 // === LOOT ===
 // Backward-compat: keep loot_type for default coin drop
 loot_type = "coin_copper";
+coin_type = "coin_copper";
+coin_min  = 1;
+coin_max  = 2;
 
 // Offline/combat tuning (expected items per kill)
 offline_kills_per_min = 3;

@@ -1,3 +1,5 @@
+// oLoot Draw
+
 // 1. Hover offset (used only if not dropping)
 var hover_offset = 0;
 if (!is_dropping) {

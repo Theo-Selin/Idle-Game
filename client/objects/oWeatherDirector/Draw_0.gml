@@ -70,7 +70,6 @@ if (night_k > 0.001) {
             if (variable_instance_exists(flm, "alpha_now")) {
                 hole_fade = clamp(flm.alpha_now, 0, 1);
             } else if (variable_instance_exists(flm, "fade_t")) {
-                // If alpha_now not yet computed this frame, approximate with fade_t
                 hole_fade = clamp(flm.fade_t, 0, 1);
             }
 
@@ -81,51 +80,61 @@ if (night_k > 0.001) {
             }
         }
 
-		// ---- Portal holes: make portals ignore the vignette ----
-		if (object_exists(oPortalTile)) {
-		    var n = instance_number(oPortalTile);
-		    if (n > 0) {
-		        for (var i = 0; i < n; i++) {
-		            var p = instance_find(oPortalTile, i);
-		            if (!instance_exists(p)) continue;
+        // ---- Portal holes: make portals ignore the vignette ----
+        if (object_exists(oPortalTile)) {
+            var n = instance_number(oPortalTile);
+            if (n > 0) {
+                for (var i = 0; i < n; i++) {
+                    var p = instance_find(oPortalTile, i);
+                    if (!instance_exists(p)) continue;
 
-		            // Local screen-space position; align to your glow base (y + 16)
-		            var px_local = p.x - L;
-		            var py_local = (p.y + 16) - T;
+                    // Local screen-space position; align to your glow base (y + 16)
+                    var px_local = p.x - L;
+                    var py_local = (p.y + 16) - T;
 
-		            // --- Safe radius & params (all with fallbacks) ---
-		            var rad = 56; // default radius
-		            // Prefer explicit per-instance override if set:
-		            if (variable_instance_exists(p, "vignette_clear_radius_px")) {
-		                var rv = p.vignette_clear_radius_px;
-		                if (is_real(rv) && rv > 0) rad = rv;
-		            } else {
-		                // Derive from glow size if available
-		                var bw = variable_instance_exists(p, "glow_beam_width")  ? max(0, p.glow_beam_width)  : 128;
-		                var bh = variable_instance_exists(p, "glow_beam_height") ? max(0, p.glow_beam_height) : 128;
-		                rad = max(rad, round(max(bw * 0.5, bh * 0.5)));
-		            }
+                    // --- Safe radius & params (all with fallbacks) ---
+                    var rad = 56; // default radius
 
-		            var soft  = 12;
-		            if (variable_instance_exists(p, "vignette_clear_soft_px")) {
-		                var sv = p.vignette_clear_soft_px; if (is_real(sv) && sv >= 0) soft = sv;
-		            }
+                    // Prefer explicit per-instance override if set:
+                    if (variable_instance_exists(p, "vignette_clear_radius_px")) {
+                        var rv = variable_instance_get(p, "vignette_clear_radius_px");
+                        if (is_real(rv) && rv > 0) rad = rv;
+                    } else {
+                        // Derive from glow size if available (SAFE reads)
+                        var bw = 128;
+                        if (variable_instance_exists(p, "glow_beam_width")) {
+                            var bwv = variable_instance_get(p, "glow_beam_width");
+                            if (is_real(bwv)) bw = max(0, bwv);
+                        }
+                        var bh = 128;
+                        if (variable_instance_exists(p, "glow_beam_height")) {
+                            var bhv = variable_instance_get(p, "glow_beam_height");
+                            if (is_real(bhv)) bh = max(0, bhv);
+                        }
+                        rad = max(rad, round(max(bw * 0.5, bh * 0.5)));
+                    }
 
-		            var _power = 0.5;
-		            if (variable_instance_exists(p, "vignette_clear_strength")) {
-		                var pv = p.vignette_clear_strength; if (is_real(pv)) _power = clamp(pv, 0, 0.5);
-		            }
+                    var soft  = 12;
+                    if (variable_instance_exists(p, "vignette_clear_soft_px")) {
+                        var sv = variable_instance_get(p, "vignette_clear_soft_px");
+                        if (is_real(sv) && sv >= 0) soft = sv;
+                    }
 
-		            // Early cull if hole is off-screen (radius padded)
-		            if (px_local < -rad || px_local > W + rad || py_local < -rad || py_local > H + rad) continue;
+                    var _power = 0.5;
+                    if (variable_instance_exists(p, "vignette_clear_strength")) {
+                        var pv = variable_instance_get(p, "vignette_clear_strength");
+                        if (is_real(pv)) _power = clamp(pv, 0, 0.5);
+                    }
 
-		            if (_power > 0.001) {
-		                __erase_circle_local(px_local, py_local, rad, soft, _power);
-		            }
-		        }
-		    }
-		}
+                    // Early cull if hole is off-screen (radius padded)
+                    if (px_local < -rad || px_local > W + rad || py_local < -rad || py_local > H + rad) continue;
 
+                    if (_power > 0.001) {
+                        __erase_circle_local(px_local, py_local, rad, soft, _power);
+                    }
+                }
+            }
+        }
 
         surface_reset_target();
         draw_surface(night_vignette_surf, L, T);

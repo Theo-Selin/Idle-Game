@@ -1,9 +1,9 @@
 {
   "$GMScript":"v1",
-  "%Name":"collect_loot",
+  "%Name":"build_enemy_drops_index",
   "isCompatibility":false,
   "isDnD":false,
-  "name":"collect_loot",
+  "name":"build_enemy_drops_index",
   "parent":{
     "name":"script_loot",
     "path":"folders/Scripts/script_loot.yy",

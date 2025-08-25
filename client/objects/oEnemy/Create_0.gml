@@ -82,6 +82,7 @@ is_dead = false;
 death_started = false;
 death_timer = 0;
 death_fade_speed = 0.05;
+has_dropped = false;
 
 // 🎓 One-time EXP payout guard (so death EXP can't double-fire)
 xp_awarded = false;
@@ -120,41 +121,62 @@ take_damage = function(amount, attacker = noone, is_crit = false) {
             play_impact_sound(destroy_sound);
         }
 
-		// 🎁 Drop loot (supports loot_table; falls back to loot_type)
-		if (instance_exists(oPlayer) && !is_undefined(drop_loot)) {
-		    var source_x = oPlayer.x;
-		    var source_y = oPlayer.y;
-		    var offset_x = (source_x > x) ? -64 : 64;
-		    var offset_y = -64;
+// 🎁 Drops: multiple probabilistic + guaranteed coins
+if (!has_dropped && instance_exists(oPlayer) && !is_undefined(drop_loot)) {
+    has_dropped = true; // ensure once per corpse
 
-		    var used_any = false;
+    var source_x = oPlayer.x;
+    var source_y = oPlayer.y;
+    var offset_x = (source_x > x) ? -64 : 64;
+    var offset_y = -64;
 
-		    // If this enemy defines a loot_table, roll each entry
-		    if (variable_instance_exists(id, "loot_table") && is_array(loot_table)) {
-		        var len = array_length(loot_table);
-		        for (var i = 0; i < len; i++) {
-		            var e = loot_table[i];
-		            // Validate minimal fields to be safe on bad data
-		            if (is_struct(e) && variable_struct_exists(e, "type") && variable_struct_exists(e, "chance")) {
-		                var chance = e.chance;
-		                if (chance > 0 && random(1) < chance) {
-		                    var a_min = variable_struct_exists(e, "min") ? e.min : 1;
-		                    var a_max = variable_struct_exists(e, "max") ? e.max : a_min;
-		                    var amt   = (a_min == a_max) ? a_min : irandom_range(a_min, a_max);
-		                    if (amt > 0) {
-		                        drop_loot(source_x, source_y, e.type, amt, id, offset_x, offset_y);
-		                        used_any = true;
-		                    }
-		                }
-		            }
-		        }
-		    }
+    // 1) Enemy-defined probabilistic table (multiple can drop)
+    if (variable_instance_exists(id, "loot_table") && is_array(loot_table)) {
+        var n1 = array_length(loot_table);
+        for (var i = 0; i < n1; i++) {
+            var e = loot_table[i];
+            if (is_struct(e) && variable_struct_exists(e, "type") && variable_struct_exists(e, "chance")) {
+                var ch = e.chance;
+                if (ch > 0 && random(1) < ch) {
+                    var mn = variable_struct_exists(e, "min") ? e.min : 1;
+                    var mx = variable_struct_exists(e, "max") ? e.max : mn;
+                    var amt = (mn == mx) ? mn : irandom_range(mn, mx);
+                    if (amt > 0) {
+                        drop_loot(source_x, source_y, e.type, amt, id, offset_x, offset_y);
+                    }
+                }
+            }
+        }
+    }
 
-		    // Fallback to legacy single-drop if no table used or nothing valid rolled
-		    if (!used_any && !is_undefined(loot_type)) {
-		        drop_loot(source_x, source_y, loot_type, 1, id, offset_x, offset_y);
-		    }
-		}
+    // 2) Item-based probabilistic table (built from global.item_data.*.drops)
+    var enemy_name = object_get_name(object_index);
+    var idx_table  = variable_struct_get(global.enemy_drops, enemy_name);
+    if (!is_undefined(idx_table) && is_array(idx_table)) {
+        var n2 = array_length(idx_table);
+        for (var k = 0; k < n2; k++) {
+            var r = idx_table[k]; // {item, chance, min, max}
+            if (r.chance > 0 && random(1) < r.chance) {
+                var amt2 = (r.min == r.max) ? r.min : irandom_range(r.min, r.max);
+                if (amt2 > 0) {
+                    drop_loot(source_x, source_y, r.item, amt2, id, offset_x, offset_y);
+                }
+            }
+        }
+    }
+
+    // 3) Guaranteed coins (always drop in addition to the above)
+    if (!is_undefined(coin_type)) {
+        var cmin = is_real(coin_min) ? coin_min : 1;
+        var cmax = is_real(coin_max) ? coin_max : cmin;
+        var camt = (cmin == cmax) ? cmin : irandom_range(cmin, cmax);
+        if (camt > 0) {
+            drop_loot(source_x, source_y, coin_type, camt, id, offset_x, offset_y);
+        }
+    }
+}
+
+
 
 
         // 🎓 EXP on kill (once)

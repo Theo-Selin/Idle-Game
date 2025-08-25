@@ -5,8 +5,8 @@
   "isDnD":false,
   "name":"drop_loot",
   "parent":{
-    "name":"Scripts",
-    "path":"folders/Scripts.yy",
+    "name":"script_loot",
+    "path":"folders/Scripts/script_loot.yy",
   },
   "resourceType":"GMScript",
   "resourceVersion":"2.0",

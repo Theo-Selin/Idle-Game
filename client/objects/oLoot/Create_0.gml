@@ -1,4 +1,4 @@
-/// Create Event
+/// oLoot Create Event
 loot_type = "oak_log";     // string identifier
 loot_amount = 1;           // how much of the resource
 pickup_delay = 60;         // frames before it can be collected
