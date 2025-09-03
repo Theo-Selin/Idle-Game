@@ -21,5 +21,5 @@
   "sampleRate":44100,
   "soundFile":"snd_ui_hover.ogg",
   "type":0,
-  "volume":0.5,
+  "volume":1.0,
 }

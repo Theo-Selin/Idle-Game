@@ -1,6 +1,6 @@
 {
   "$GMSound":"",
-  "%Name":"snd_slime_death",
+  "%Name":"snd_click",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -9,17 +9,17 @@
   "bitRate":128,
   "compression":0,
   "conversionMode":0,
-  "duration":0.99723357,
-  "name":"snd_slime_death",
+  "duration":0.062403627,
+  "name":"snd_click",
   "parent":{
-    "name":"slime",
-    "path":"folders/Sounds/sound_effects/combat/enemy/slime.yy",
+    "name":"UI",
+    "path":"folders/Sounds/sound_effects/UI.yy",
   },
   "preload":false,
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_slime_death.ogg",
+  "soundFile":"snd_click.ogg",
   "type":0,
-  "volume":0.05,
+  "volume":1.0,
 }

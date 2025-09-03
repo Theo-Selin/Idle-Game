@@ -202,7 +202,7 @@ function draw_crafting_ui(x1, y1, w, h) {
 
     // SFX & state
     var sfx_hover_btn = snd_ui_hover;
-    var sfx_click_btn = snd_upgrade_click; // reuse click SFX used by upgrade
+    var sfx_click_btn = snd_click; // reuse click SFX used by upgrade
     if (!variable_instance_exists(id, "__craft_btn_alpha")) __craft_btn_alpha = 0.80;
     if (!variable_instance_exists(id, "__craft_btn_hover_prev")) __craft_btn_hover_prev = false;
 

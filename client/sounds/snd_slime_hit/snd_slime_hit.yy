@@ -12,8 +12,8 @@
   "duration":0.36303854,
   "name":"snd_slime_hit",
   "parent":{
-    "name":"enemy",
-    "path":"folders/Sounds/sound_effects/combat/enemy.yy",
+    "name":"slime",
+    "path":"folders/Sounds/sound_effects/combat/enemy/slime.yy",
   },
   "preload":false,
   "resourceType":"GMSound",
